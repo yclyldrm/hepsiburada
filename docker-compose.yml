@@ -1,0 +1,26 @@
+version: '3'
+services:
+  web:
+    image: hepsiburadacase
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8080"
+      - "443:443"
+    depends_on:
+      - db
+    networks:
+      - case
+  db:
+    image: 'mysql/mysql-server:8.0'
+    ports:
+      - "3306:3306"
+    env_file: .env
+    command: mysqld --sql_mode=""
+    networks:
+      - case
+
+networks:
+  case:
+    driver: bridge
